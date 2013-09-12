@@ -1,0 +1,31 @@
+body {
+  background-color: lightgray;
+}
+
+#box {
+  width: 80%;
+  height: 350px;
+  margin-left: 10%;
+  margin-top: 5%;
+  background: white;
+  overflow: auto;
+}
+
+#header {
+  font-size: x-large;
+  line-height: normal;
+  float: left;
+  margin-left: 10%;
+  margin-top: 10%;
+  font-family: Open Sans,sans-serif;
+  color: #005596;
+}
+
+.desc {
+  clear: both;
+  padding-top: 20px;
+  float: left;
+  margin-left: 10%;  
+  font-family: Open Sans,sans-serif;
+  color: gray;
+}

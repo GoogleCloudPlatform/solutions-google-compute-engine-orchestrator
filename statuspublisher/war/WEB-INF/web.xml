@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <display-name>StatusPublisher</display-name>
+    <description>Status publisher for GCE instances.</description>
+    <servlet>
+        <servlet-name>StatusPublisher</servlet-name>
+        <servlet-class>com.google.cloud.solutions.sampleapps.orchestration.statuspublisher.server.StatusPublisher</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>StatusPublisher</servlet-name>
+        <url-pattern>/status</url-pattern>
+    </servlet-mapping>
+
+    <display-name>ShutdownSignalHandler</display-name>
+    <description>Handler for shutdown signal from GAE.</description>
+    <servlet>
+        <servlet-name>ShutdownSignalHandler</servlet-name>
+        <servlet-class>com.google.cloud.solutions.sampleapps.orchestration.statuspublisher.server.ShutdownSignalHandler</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ShutdownSignalHandler</servlet-name>
+        <url-pattern>/shutdown</url-pattern>
+    </servlet-mapping>
+    <servlet>
+      <servlet-name>ApplicationStatsHandler</servlet-name>
+      <servlet-class>com.google.cloud.solutions.sampleapps.orchestration.statuspublisher.server.ApplicationStatsHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+      <servlet-name>ApplicationStatsHandler</servlet-name>
+      <url-pattern>/applicationStats</url-pattern>
+    </servlet-mapping>
+    <listener>
+        <listener-class>com.google.cloud.solutions.sampleapps.orchestration.statuspublisher.server.StatusPublisherServletContext</listener-class>
+  </listener>
+</web-app>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configproperties>
+  <status-publisher-config>
+    <!-- The mode in which status publisher gets application status from the
+     application. It can be either poll or push. For poll, the status publisher
+     starts a timer and check points the application at a regular interval.
+     For push, it is the application's responsibility to call status publisher
+     at http://<host>:<port>/applicationStats. -->
+    <mode>push</mode>
+
+    <!-- The url to get application stats in poll mode. -->
+    <appStatusUrl>!!! ENTER THE URL WHERE THE APPLICATION STATUS WILL BE PUBLISHED !!!</appStatusUrl>
+
+    <!-- Specifies the delay to start checking the application after the status
+     publisher has started. This parameter applies to poll mode only. -->
+    <startCheckingDelay>10000</startCheckingDelay>
+
+    <!-- Specifies how often to check the application stats. This parameter
+     applies to poll mode only. -->
+    <statusCheckInterval>10000</statusCheckInterval>
+
+    <!-- The system file where system RAM usage is reported. -->
+    <procMemFile>/proc/meminfo</procMemFile>
+  </status-publisher-config>
+</configproperties>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cronentries>
+  <cron>
+    <url>/orchestrator</url>
+    <description>Check status regularly</description>
+    <schedule>every 1 minutes</schedule>
+    <target>orchestratorbackend</target>
+  </cron>
+</cronentries>

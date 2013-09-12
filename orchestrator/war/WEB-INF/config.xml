@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configproperties>
+  <!-- Configuration of orchestrator -->
+  <!-- could also specify the following: -->
+  <!-- <maximum-ave-memory-usage></maximum-ave-memory-usage> -->
+  <!-- <minimum-ave-memory-usage></minimum-ave-memory-usage> -->
+  <!-- <maximum-number-leased-tasks></maximum-number-leased-tasks> -->
+  <!-- <minimum-number-leased-tasks></minimum-number-leased-tasks> -->
+  <!-- <maximum-number-instances></maximum-number-instances> -->
+  <!-- <num-instances-to-create></num-instances-to-create> -->
+  <!-- <num-instances-to-shut-down></num-instances-to-shut-down> -->
+  <!-- <num-idle-instances></num-idle-instances> -->
+
+  <!-- The following allows you to set a timeout for any scale out decision. -->
+  <!-- <maxScaleOutTimeout></maxScaleOutTimeout> -->
+
+  <!-- The following are defaults. Adjust to suit your application's needs. -->
+
+  <orchestrator-config>
+    <maximum-ave-cpu-load>60</maximum-ave-cpu-load>
+    <minimum-ave-cpu-load>30</minimum-ave-cpu-load>
+  </orchestrator-config>
+
+  <!-- Configuration of GCE instances -->
+  <gce-config>
+
+    <!--
+       This is the project that has Google Compute Engine enabled and where instances
+       will be created to run your application. You must add the service account of
+       your AppEngine orchestrator tool as an editor of this project so that it has
+       permission to spin up and down instances.
+    -->
+    <projectId>!!! ENTER YOUR GOOGLE COMPUTE ENGINE 
+      PROJECT ID HERE !!!</projectId>
+
+
+    <!--
+       This is the zone where your Compute Engine instance will be created.
+    -->
+    <zone>!!! ENTER YOUR GOOGLE COMPUTE ENGINE 
+      ZONE HERE !!!</zone>
+
+    <!--
+      When the orchestrator creates a new instance of GCE, the full name is in this format:
+      <instancePrefix><number of existing instances + 1>
+    -->
+    <instancePrefix>statuspublisher-</instancePrefix>
+
+    <!--
+       The prefix for the name of the boot disk for new instances.
+       The full name of the disk is <diskName><instance-name>.
+    -->
+    <diskName>boot-</diskName>
+
+    <!--
+       Simple API Access's API key from the project. This
+       allows your application to access the Compute Engine API.
+    -->
+    <projectApiKey>!!! ENTER YOUR GOOGLE COMPUTE ENGINE 
+      PROJECT'S API KEY HERE !!!</projectApiKey>
+
+    <computeScope>https://www.googleapis.com/auth/compute</computeScope>
+
+    <!--
+       A snapshot of the persistent disk that has all the required softwares, including
+       your application. When a new instance is created, the boot disk will be a copy of
+       this snapshot.
+    -->
+    <snapshotName>statuspublisher-snapshot</snapshotName>
+
+    <!--
+       The machine type for the instance.
+    -->
+    <machineType>n1-standard-1</machineType>
+
+    <!--
+      The kernel to use for the Compute Engine instance.
+    -->
+    <kernel>gce-v20130515</kernel>
+
+    <!--
+      Startup script to run when the Compute Engine instance starts up. This script should
+      start your application. We recommend storing the startup script in Google Cloud Storage.
+    -->
+    <startupScript>http://commondatastorage.googleapis.com/<!!! ENTER
+      YOUR GOOGLE CLOUD STORAGE BUCKET !!!>/<!!! ENTER NAME OF YOUR START UP SCRIPT!!!</startupScript>
+  </gce-config>
+</configproperties>

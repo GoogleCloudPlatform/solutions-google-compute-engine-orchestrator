@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Google Compute Engine Instances Dashboard</title>
+  <script type="text/javascript"
+    src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
+  </script>
+  <script>
+  /*
+   * AJAX function to display the instances status from the orchestrator tool.
+   */
+  function displayStatuses() {
+    $.getJSON('instanceStatus', function(data) {
+      $('#chart_div').empty(); // clear the chart_div
+      $.each(data, function(key, element) {
+        var status = $.parseJSON(element.status);
+        drawChart(element.instanceName, status.systemStats.aveSystemLoad,
+            status.systemStats.memUsedRatio);
+      })
+    });
+  }
+  /*
+   * Runs displayStatuses on window load.
+   */
+  $(window).load(function () {
+    displayStatuses();
+    setInterval(displayStatuses, 60000);   // execute every minute
+  });
+  </script>
+  <script type='text/javascript'
+    src='https://www.google.com/jsapi'>
+  </script>
+  <script type='text/javascript'>
+  google.load('visualization', '1', {packages:['gauge']});
+  /*
+   * Draws Compute Engine instance status using Google chart library.
+   * @param systemLoad a float that ranges from 0.0 to > 1.0
+   * @param memory a float that ranges from 0.0 to 1.0
+   */
+  function drawChart(name, systemLoad, memory) {
+    var s = Math.min(Math.floor(systemLoad * 100), 100);
+    var m = Math.floor(memory * 100);
+    var data = google.visualization.arrayToDataTable([
+      ['Label', name],
+      ['Load', s],
+      ['Memory', m],
+    ]);
+
+    var options = {
+      width: 400, height: 120,
+      redFrom: 90, redTo: 100,
+      yellowFrom:75, yellowTo: 90,
+      minorTicks: 5
+    };
+
+    var divElement = document.getElementById('chart_div');
+    var newDivElement = document.createElement('div');
+    var newDivIdName = name + '-div';
+    newDivElement.setAttribute('id', newDivIdName);
+    divElement.appendChild(newDivElement);
+    var title = document.createElement('p');
+    title.innerHTML = name;
+    divElement.appendChild(title);
+    var chart = new google.visualization.Gauge(newDivElement);
+    chart.draw(data, options);
+  }
+  </script>
+</head>
+<body>
+<h2>Orchestrating Cloud Platform: Dashboard</h2>
+<div id='chart_div'></div>
+</body>
+</html>
