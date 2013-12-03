@@ -30,15 +30,13 @@
        your AppEngine orchestrator tool as an editor of this project so that it has
        permission to spin up and down instances.
     -->
-    <projectId>!!! ENTER YOUR GOOGLE COMPUTE ENGINE 
-      PROJECT ID HERE !!!</projectId>
+    <projectId>empyrean-yeti-226</projectId>
 
 
     <!--
        This is the zone where your Compute Engine instance will be created.
     -->
-    <zone>!!! ENTER YOUR GOOGLE COMPUTE ENGINE 
-      ZONE HERE !!!</zone>
+    <zone>us-central1-a</zone>
 
     <!--
       When the orchestrator creates a new instance of GCE, the full name is in this format:
@@ -56,8 +54,7 @@
        Simple API Access's API key from the project. This
        allows your application to access the Compute Engine API.
     -->
-    <projectApiKey>!!! ENTER YOUR GOOGLE COMPUTE ENGINE 
-      PROJECT'S API KEY HERE !!!</projectApiKey>
+    <projectApiKey>AIzaSyDSyNUVZmnrlqVebvoQS2ncueybG9ct_Tk</projectApiKey>
 
     <computeScope>https://www.googleapis.com/auth/compute</computeScope>
 
@@ -66,7 +63,7 @@
        your application. When a new instance is created, the boot disk will be a copy of
        this snapshot.
     -->
-    <snapshotName>statuspublisher-snapshot</snapshotName>
+    <snapshotName>statuspublisher-master-snapshot</snapshotName>
 
     <!--
        The machine type for the instance.
@@ -74,15 +71,9 @@
     <machineType>n1-standard-1</machineType>
 
     <!--
-      The kernel to use for the Compute Engine instance.
-    -->
-    <kernel>gce-v20130515</kernel>
-
-    <!--
       Startup script to run when the Compute Engine instance starts up. This script should
       start your application. We recommend storing the startup script in Google Cloud Storage.
     -->
-    <startupScript>http://commondatastorage.googleapis.com/<!!! ENTER
-      YOUR GOOGLE CLOUD STORAGE BUCKET !!!>/<!!! ENTER NAME OF YOUR START UP SCRIPT!!!</startupScript>
+    <startupScript>http://commondatastorage.googleapis.com/statuspublisher/startup.sh</startupScript>
   </gce-config>
 </configproperties>

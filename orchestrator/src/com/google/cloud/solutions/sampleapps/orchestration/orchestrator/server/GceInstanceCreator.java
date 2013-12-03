@@ -265,8 +265,6 @@ public class GceInstanceCreator {
     json.addProperty("name", instanceName);
     json.addProperty("machineType", ConfigProperties.urlPrefixWithProjectAndZone + "/machineTypes/"
         + configProperties.get("machineType"));
-    json.addProperty("kernel",
-        ConfigProperties.URL_PREFIX + "google/global/kernels/" + configProperties.get("kernel"));
 
     JsonObject disksElem = new JsonObject();
     disksElem.addProperty("kind", "compute#attachedDisk");

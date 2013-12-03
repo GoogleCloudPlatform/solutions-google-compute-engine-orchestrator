@@ -56,7 +56,7 @@ public class ConfigProperties {
 
   private static final Logger logger = Logger.getLogger(ConfigProperties.class.getName());
 
-  public static final String URL_PREFIX = "https://www.googleapis.com/compute/v1beta15/projects/";
+  public static final String URL_PREFIX = "https://www.googleapis.com/compute/v1/projects/";
   public static final String COMPUTE_SCOPE = "https://www.googleapis.com/auth/compute";
 
   public static String urlPrefixWithProjectAndZone;

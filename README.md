@@ -33,7 +33,7 @@ Summary
 
 This application implements a tool for auto-scaling Google Compute Engine VMs via an orchestrator implemented on Google App Engine.
 
-It is intended to be run in tandem with the status publisher tool that will publish information about Compute Engine VMs. See the section below for the status publisher for more information.
+It is intended to be run in tandem with the status publisher tool that will publish information about Compute Engine VMs. See the README for the status publisher for more information.
 
 
 Supported Components
@@ -67,7 +67,7 @@ App Engine development is very quick and easy on Eclipse, because you get to use
 
 1. Make sure you have Java installed. You can install Open JDK from [here](http://openjdk.java.net/).
 2. Download and set up Eclipse.
-3. Download the [App Engine Java SDK](http://googleappengine.googlecode.com/files/appengine-java-sdk-1.8.1.zip)
+3. Download the [App Engine Java SDK](http://googleappengine.googlecode.com/files/appengine-java-sdk-1.8.7.zip)
 4. Download the Google Plugin for Eclipse for your IDE version [here](https://developers.google.com/eclipse/docs/getting_started). Set it up using the instructions on that page.
 
 After setting up the Google Plugin for Eclipse, import the orchestrator as an existing project in eclipse. To do this:
@@ -96,7 +96,7 @@ Take a look at war/WEB-INF/config.xml. We have pre-populated this configuration 
 3. Your Compute Engine project's API key. In this sample, we use a simple API key. The API key can be found in the [API console](https://code.google.com/apis/console/). More information can be found [here](https://developers.google.com/console/help/#UsingKeys). This assumes that the orchestration app is separate project from the application running on Compute Engine.
 4. The location (Cloud Storage bucket) and name of your startup script.
 
-You should modify all the values in this file to suit your needs. Please refer to the paper "Auto Scaling on the Google Cloud Platform" for documentation for the parameters. Also refer to the section below for the accompanying status publisher tool for more information.
+You should modify all the values in this file to suit your needs. Please refer to the paper "Auto Scaling on the Google Cloud Platform" for documentation for the parameters. Also refer to the README for the accompanying status publisher tool for more information.
 Please note that if any of the scaling parameters result in a contradictory decision, no action is taken by the orchestrator tool. For instance, if the minimum-ave-cpu-load would dictate that an instance should be shut down, but the maximum-ave-cpu-load would dictate that a new instance should be created, no action is taken.
 
 #### Other configuration
@@ -107,7 +107,7 @@ Deploying and Running
 
 Deploy your App Engine application. Go to the landing page at your-app-id.appspot.com.
 
-In order to see the orchestrator in action, you must have the accompanying status publisher running on a GCE instance. See the section below for the status publisher for details.
+In order to see the orchestrator in action, you must have the accompanying status publisher running on a GCE instance. See the README for the status publisher for details.
 
 To ensure that the orchestrator and status publisher tools are running properly together:
 
@@ -125,13 +125,11 @@ Important Assumptions
 ---------------------
 The orchestrator pool currently assumes the following:
 
-1. All instances with the specified prefix in the specified zone (both are specified in config.xml) will report status at http://&lt;VM Instance External IP&gt;:8080/StatusPublisher/status. The orchestrator further expects the JSON format that is described in the section for the status publisher.
+1. All instances with the specified prefix in the specified zone (both are specified in config.xml) will report status at http://&lt;VM Instance External IP&gt;:8080/StatusPublisher/status. The orchestrator further expects the JSON format that is described in the README for the status publisher.
 2. When an instance is given the "prepare to shutdown" signal, it is responsible for either shutting itself down or publishing the following status: READY\_TO\_SHUT\_DOWN. The orchestrator will then shut it down. The orchestrator will wait for either of these to occur.
-
 
 Status publisher tool
 =====================
-
 
 Summary
 -------
@@ -147,12 +145,12 @@ Here is a sample statistics published by this sample application in JSON format.
         {"numTasksProcessing":0,"numTasksProcessedLastMin":0,"lastLeasedDate":"2013-08-14 21:48:29"}
     }
 
-Please see the section above for the orchestrator tool for more information of how these statistics are used.
+Please see the README for the orchestrator tool for more information of how these statistics are used.
 
 The status publisher web application is designed to run in tandem with your application on Google Compute Engine. Every VM on Compute Engine that runs your application should also be running this status publisher application at the same time.
 
 Supported Components
-====================
+--------------------
 
 Languages:
 
@@ -163,18 +161,20 @@ Google Cloud Platform:
 * Compute Engine
 
 Downloads
-=========
+---------
 
 Download the sample code. Create a directory and extract the archive file in this directory. You will see the following files and directories:
 
     build.xml
     common/
+    LICENSE
+    README.md
     src/
     startup.sh
     war/
 
 Customizing
-===========
+-----------
 
 config.xml
 ----------
@@ -204,7 +204,7 @@ startup.sh
 When a new instance boots up, you need to supply a start-up script so that both the status publisher and your application will run on any new VM that is brought up. Here, we include a file (startup.sh) as an example. You will need to edit this file with any startup you need for your own application (in addition to the status publisher). Then upload the startup script to Google Cloud Storage. Then change the orchestrator tool configuration (which is also called config.xml) to use this start up script whenever a new instance is started.
 
 Building 
-========
+--------
 
 You will need to download the following jar files and add them to the war/WEB-INF/lib directory.
 
@@ -221,20 +221,18 @@ Use ant to build StatusPublisher.war. You may have to install ant. This build st
 
 
 Setting Up
-==========
+----------
 
-Pre-requisites
--------------
+### Pre-requisites
 
-1. If you don't yet have a [Cloud Console](https://cloud.google.com/console) project, create one with Compute Engine enabled.
-2. Create a Compute Engine instance. 
+1 If you don't yet have a [Cloud Console](https://cloud.google.com/console) project, create one with Compute Engine enabled.
+2 Create a Compute Engine instance. 
 
 > **Note: The name of the instance must have the same prefix as the instancePrefix you set in the orchestrator tool's configuration. It also must also be created in the same zone as the one you set in the orchestrator tool's configuration.**
 
 Please refer to the [Google Compute Engine Developer Guide](https://developers.google.com/compute/) for information on how these are done.
 
-Setting Up
-----------
+### Setting Up
 
 Install a servlet container such as [jetty](http://www.eclipse.org/jetty/), add the StatusPublisher.war file that you built above to the appropriate directory and start the servlet container. The following instructions are for jetty. The startup script provided with the orchestrator tool assumes jetty as well.
 
@@ -269,12 +267,12 @@ Creating a Snapshot
 In order for the orchestrator tool to create new instances with your application, you will need to create a snapshot of your instance that is running both your application and the status publisher. This snapshot will be used as the boot source for the new instance.
 
 1. Visit the [Cloud Console](https://cloud.google.com/console)
-2. Select your Compute Engine Project
+2. Select your Compute Engine Project, then click on Compute Engine
 3. Select Snapshots
 4. Click the NEW SNAPSHOT button
-5. Specify a name and choose your instance's disk as the source disk. Make sure that the name of the snapshot matches the name you set in the orchestrator tool's config.xml. By default, this is statuspublisher-snapshot.
+5. Specify a name and choose your instance's disk as the source disk.
 
-Change the orchestrator tool's configuration (config.xml) to use this snapshot as the boot source.
+Make sure that the name of the snapshot matches the name you set in the orchestrator tool's config.xml for the snapshotName. By default, this is statuspublisher-snapshot.
 
 
 Important Assumptions
@@ -287,9 +285,5 @@ Important Assumptions
 * If in the orchestrator tool you set the "instancePrefix", you must make sure that all your instances where status publisher is running have names that begin with that prefix.  
 * When new instances are created, they will be created with a snapshot that you must create in your Compute Engine project, as well as with the startup script you provide.  
 * The orchestrator tool will currently only poll instances in a specified zone (set in the orchestrator's config.xml). Your instances must be running in that zone.  
-* The orchestrator tool must have access to your Compute Engine project ID, API key, zone, etc. Please see the section above for the orchestrator tool for further information.
-
-
-
-
+* The orchestrator tool must have access to your Compute Engine project ID, API key, zone, etc. Please see the orchestrator tool's README for further information.
 
